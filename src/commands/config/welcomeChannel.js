@@ -19,11 +19,11 @@ const run = async (client, msg, args) => {
     };
 };
 module.exports = {
-    name: "welcomeChannel",
+    name: "config welcomeChannel",
     category: "config",
     description: "Permet de configurer le salon où les messages d'invitations seront envoyés (Si aucun salon n'est précisé, le bot n'enverra pas les messages. Modifiable à tout moment).",
     usage: "``[#channel | channelID]``",
-    aliases: ["wlc"],
+    aliases: ["welcomeChannel", "wlc"],
     permissions: ["MANAGE_CHANNELS"],
     run: run
 };

@@ -64,7 +64,7 @@ const run = async (client, msg, args) => {
             let joined = entry[1].joined[entry[1].joined.length-1];
             let userEntry = client.users.cache.get(entry[0]);
             let invitedInvite = joined.inviteCode;
-            let timestamp = fromIntToLocalDate(Date.now() - member.joinedTimestamp);
+            let timestamp = fromIntToLocalDate(Date.now() - member.joinedAt.getTime());
             return `${userEntry.toString()} avec ${invitedInvite ? `**${invitedInvite}**` : "***Inconnue***"} - Il y a ${timestamp ? `**${timestamp}**` : "***...***"}`
         }).join("\n");
     let embed = new MessageEmbed()

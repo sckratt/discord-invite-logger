@@ -20,11 +20,11 @@ let variables = [
     "{memberMention}", "{memberTag}", "{memberUsername}", "{memberID}", "{memberCreatedAt}"
 ];
 module.exports = {
-    name: "welcomeMessage",
+    name: "config welcomeMessage",
     category: "config",
     description: `Permet de configurer le messages de bienvenue.\n__**Les variable disponibles :**__\n${variables.map(v => `\`\`${v}\`\``).join(", ")}`,
     usage: "``<message>``",
-    aliases: ["msg"],
+    aliases: ["welcomeMessage", "msg"],
     permissions: ["MANAGE_GUILD"],
     run: run
 };
