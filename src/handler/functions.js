@@ -1,4 +1,4 @@
-const { Client } = require('discord.js');
+const { Client, MessageEmbed } = require('discord.js');
 const colors = require('hexacolors');
 
 /**
