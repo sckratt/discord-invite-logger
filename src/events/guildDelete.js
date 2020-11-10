@@ -23,8 +23,8 @@ module.exports = async (client, guild) => {
     };
 
     let hook = {
-        id: client.config.removeWebhookURL.split("/")[5],
-        token: client.config.removeWebhookURL.split("/")[6],
+        id: process.env.removeWebhookURL.split("/")[5],
+        token: process.env.removeWebhookURL.split("/")[6],
     };
     const webhook = new WebhookClient(hook.id, hook.token);
     let embed = new MessageEmbed()
@@ -44,5 +44,5 @@ module.exports = async (client, guild) => {
             `${client.emotes.get("backup").toString()} ❱ Nous sommes maintenant à`,
             `❱ **${client.guilds.cache.size}** serveurs`
         ).setFooter(`ID ➔ ${guild.id}`)
-    webhook.send(embed);
+    webhook.send(embed).catch(()=>{});
 };

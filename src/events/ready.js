@@ -11,13 +11,13 @@ module.exports = async (client) => {
         chalk.green(`[+] Connecté à Discord en tant que ${client.user.tag} (ID: ${client.user.id})`)
     );
     let hook = {
-        id: client.config.statusWebhookURL.split("/")[5],
-        token: client.config.statusWebhookURL.split("/")[6],
+        id: process.env.statusWebhookURL.split("/")[5],
+        token: process.env.statusWebhookURL.split("/")[6],
     }; const webhook = new WebhookClient(hook.id, hook.token);
     let embed = new MessageEmbed()
         .setColor(colors.green)
         .setDescription(`${client.emotes.get("yes").toString()} ***Le bot est maintenant connecté et prêt à être utilisé.***`)
-    webhook.send(embed);
+    webhook.send(embed).catch(()=>{});
     client.guilds.cache.forEach(async (guild) => {
         if(!db.has(`guilds.${guild.id}`)) {
             db.set(`guilds.${guild.id}`, {
