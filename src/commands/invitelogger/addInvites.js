@@ -17,7 +17,7 @@ const run = async (client, msg, args) => {
     
     const member = msg.mentions.members.first() || msg.guild.members.cache.get(args[0]);
     if(!member) return client.sendError("Aucun membre ne correspond aux informations donnée.", msg);
-    const amount = parseInt(args[1]);
+    let amount = parseInt(args[1]);
     if(!amount || isNaN(amount) || amount <= 0) amount = 1;
     if(!db.has(`userInvites.${msg.guild.id}.${member.user.id}`)) {
         db.set(`userInvites.${msg.guild.id}.${member.user.id}`, {
