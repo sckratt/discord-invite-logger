@@ -53,6 +53,8 @@ const run = async (client, msg, args) => {
 module.exports = {
     name: "invites",
     category: "invitelogger",
+    description: "Envoie le récapitulatif de vos invitations ou de celle d'un membre.",
+    usage: "``[@member | memberID]``",
     aliases: ["invite", "i"],
     run: run
 };

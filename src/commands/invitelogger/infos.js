@@ -104,6 +104,9 @@ const run = async (client, msg, args) => {
 module.exports = {
     name: "infos",
     category: "invitelogger",
+    description: "Envoie vos informations ou celles du membre.",
+    usage: "``[@member | memberID]``",
+    permissions: ["MANAGE_GUILD"],
     aliases: ["info"],
     run: run
 };

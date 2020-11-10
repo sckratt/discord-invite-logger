@@ -83,6 +83,7 @@ const run = async (client, msg, args) => {
 module.exports = {
     name: "inviteCode",
     category: "invitelogger",
+    description: "Vous envoie en messages privés le récapitulatif de vos invitations régulières.",
     aliases: ["ic"],
     run: run
 };

@@ -50,6 +50,9 @@ const run = async (client, msg, args) => {
 module.exports = {
     name: "removeInvites",
     category: "invitelogger",
+    description: "Retire des invitations à un membre du serveur (si aucun montant n'est fourni ou si le montant est plus petit que 1, le montant est automatiquement paramétré à 1).",
+    usage: "``<@member | memberID>`` ``[montant]``",
     aliases: ["removei"],
+    permissions: ["MANAGE_GUILD"],
     run: run
 };

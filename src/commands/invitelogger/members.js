@@ -46,5 +46,6 @@ const run = async (client, msg, args) => {
 module.exports = {
     name: "members",
     category: "invitelogger",
+    description: "Envoie les statistiques des membres du serveurs.",
     run: run
 };

@@ -20,7 +20,7 @@ const run = async (client, msg, args) => {
             name: command.name,
             category: categoryNames[command.category],
             desc: command.description,
-            usage: command.usage,
+            usage: command.usage ? `\`\`${guild.prefix}${command.name}\`\` ${command.usage}` : false,
             exemples: command.exemples ? `\`\`\`${command.exemples.map(e => guild.prefix + e).join("\n")}\`\`\`` : false,
             permissions: command.permissions ? command.permissions.map(p => `\`\`${p}\`\``).join(", ") : false
         };
@@ -71,6 +71,8 @@ const run = async (client, msg, args) => {
 module.exports = {
     name: "help",
     category: "any",
+    description: "Envoie la liste des commandes ou les informations sur la commande donnée.",
+    usage: "``[commande]``",
     aliases: ["h"],
     run: run
 };

@@ -31,7 +31,7 @@ const run = async (client, msg, args) => {
         .setColor(client.config.embedColors)
         .setAuthor(msg.guild.name, msg.guild.iconURL())
         .setDescription(
-            `${client.emotes.get("aloading").toString()} ***Chargement du tableau...***`
+            `${client.emotes.get("aloading").toString()} ***Chargement du classement...***`
         )
     try {
         let message = await msg.channel.send(embed);
@@ -70,12 +70,13 @@ const run = async (client, msg, args) => {
                 await message.delete().catch(()=>{});
             });
         };
-    } catch { client.sendError("Je n'ai pas pu charger la leaderboard !", msg); }
+    } catch { client.sendError("Je n'ai pas pu charger le classement !", msg); }
 };
 
 module.exports = {
     name: "leaderboard",
     category: "invitelogger",
+    description: "Envoie le classement des membres ayant le plus d'invitations.",
     aliases: ["lb"],
     run: run
 };
