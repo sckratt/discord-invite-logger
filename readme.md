@@ -23,5 +23,5 @@ removeWebhookURL=ZZZZZ
 11.  Enfin, pour lancer le bot, double-cliquez sur le fichier __**start.bat**__
 12. Si vous avez des questions, ouvrez un commentaire dans l'onglet GitHub **[Issues](https://github.com/aeziotech/bunny-logger/issues)**.
 
-__**PS :**__
-* Il vous est strictement interdit de copier ou bien modifier le code, mais vous pouvez néanmoins l'utiliser (voir **[LICENSE](https://github.com/aeziotech/bunny-logger/blob/main/LICENSE)**).
+__**REJOIGNEZ MOI SUR DISCORD :**__
+[![discord-banner](./assets/img/discord-banner.png)](https://discord.gg/Qd8Tzkj7Q5)
