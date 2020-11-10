@@ -148,7 +148,7 @@ module.exports = async (client, guildMember) => {
                     .replace(/{inviterTag}/g, invite.inviter.tag)
                     .replace(/{inviterUsername}/g, invite.inviter.username)
                     .replace(/{inviterID}/g, invite.inviter.id)
-                    .replace(/{inviteCount}/g, db.get(`userInvites.${invite.inviter.id}.count.total`))
+                    .replace(/{inviteCount}/g, db.get(`userInvites.${guildMember.guild.id}.${invite.inviter.id}.count.total`))
                     //! MEMBER PARAMS
                     .replace(/{memberMention}/g, guildMember.user.toString())
                     .replace(/{memberTag}/g, guildMember.user.tag)
