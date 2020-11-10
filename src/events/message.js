@@ -9,6 +9,8 @@ module.exports = (client, msg) => {
     if(msg.author.bot || !msg.guild) return;
     const config = db.get(`guilds.${msg.guild.id}`);
 
+    if(msg.content.replace(/ /g, "").replace(/!/g, "") == client.user.toString()) return client.sendDone(`Mon préfix est \`\`${config.prefix}\`\`.`, msg).catch(()=>{});
+
     if(!msg.content.startsWith(config.prefix)) return;
 
     const cmd = msg.content.slice(config.prefix.length).split(" ")[0];
