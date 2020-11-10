@@ -43,7 +43,7 @@ const run = async (client, msg, args) => {
             embed
                 .setFooter(`Page ${page+1}/${pages.length}`)
                 .setDescription(
-                    pages[page].map(p => `**${pages[page].indexOf(p) + 1 + 10*pages.indexOf(page)}.** ${client.users.cache.get(p.userID).toString()} - **${p.count.total}** invitations`)
+                    pages[page].map(p => `**${pages[page].indexOf(p) + 1 + 10*pages.indexOf(pages[page])}.** ${client.users.cache.get(p.userID).toString()} - **${p.count.total}** invitations`)
                         .join("\n")
                 )
             
