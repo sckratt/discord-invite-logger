@@ -65,7 +65,7 @@ const run = async (client, msg, args) => {
             let userEntry = client.users.cache.get(entry[0]);
             let invitedInvite = joined.inviteCode;
             let timestamp = fromIntToLocalDate(Date.now() - member.joinedTimestamp);
-            return `${userEntry.toString()} avec **${invitedInvite ? `**${invitedInvite}**` : "***Inconnue***"} - Il y a ${timestamp ? `**${timestamp}**` : "***...***"}`
+            return `${userEntry.toString()} avec ${invitedInvite ? `**${invitedInvite}**` : "***Inconnue***"} - Il y a ${timestamp ? `**${timestamp}**` : "***...***"}`
         }).join("\n");
     let embed = new MessageEmbed()
         .setColor(client.config.embedColors)
