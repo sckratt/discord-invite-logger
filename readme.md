@@ -12,3 +12,6 @@ token=XXXXX
 8.  Invitez votre bot via le lien d'invitation via l'onglet **OAuth2**.
 9.  Enfin, pour lancer le projet, double-cliquez sur le fichier __**start.bat**__
 10. Si vous avez des questions, ouvrez un commentaire dans l'onglet GitHub **[Issues](https://github.com/aeziotech/bunny-logger/issues)**.
+
+__**PS :**__
+* Il vous est strictement interdit de copier ou bien modifier le code, mais vous pouvez néanmoins l'utiliser (voir **[LICENSE](https://github.com/aeziotech/bunny-logger/blob/main/LICENSE)**).
