@@ -13,7 +13,7 @@ module.exports = (client) => {
     client.sendError = (message, msg) => {
         let embed = new MessageEmbed()
             .setColor(colors.red)
-            .setDescription(`${client.emotes.get("yes").toString()} ***${message}***`)
+            .setDescription(`${client.emotes.get("no").toString()} ***${message}***`)
         return msg.channel.send(embed).catch(()=>{});
     };
     /**
