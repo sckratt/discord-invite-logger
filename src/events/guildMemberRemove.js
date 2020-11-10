@@ -10,7 +10,7 @@ module.exports = async (client, guildMember) => {
     if(!guildMember.guild.available) return;
 
     if(db.has(`userInvites.${guildMember.guild.id}.${guildMember.user.id}`)) {
-        let member = db.get(`userInvites.${guildMember.user.id}`);
+        let member = db.get(`userInvites.${guildMember.guild.id}.${guildMember.user.id}`);
         let lastJoined = member.joined[member.joined.length - 1];
         if(db.has(`userInvites.${guildMember.guild.id}.${lastJoined.by}`)) {
             if(lastJoined.fake) {
