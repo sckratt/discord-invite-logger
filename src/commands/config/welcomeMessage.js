@@ -22,7 +22,7 @@ let variables = [
 module.exports = {
     name: "config welcomeMessage",
     category: "config",
-    description: `Permet de configurer le messages de bienvenue.\n__**Les variable disponibles :**__\n${variables.map(v => `\`\`${v}\`\``).join(", ")}`,
+    description: `Permet de configurer le messages de bienvenue.\n__**Les variables disponibles :**__\n${variables.map(v => `\`\`${v}\`\``).join(", ")}`,
     usage: "``<message>``",
     aliases: ["welcomeMessage", "msg"],
     permissions: ["MANAGE_GUILD"],
