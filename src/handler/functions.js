@@ -16,4 +16,15 @@ module.exports = (client) => {
             .setDescription(`${client.emotes.get("yes").toString()} ***${message}***`)
         return msg.channel.send(embed).catch(()=>{});
     };
+    /**
+     * @param {string} message 
+     * @param {Message} msg 
+     * @returns {Promise<Message>}
+     */
+    client.sendDone = (message, msg) => {
+        let embed = new MessageEmbed()
+            .setColor(colors.green)
+            .setDescription(`${client.emotes.get("yes").toString()} ***${message}***`)
+        return msg.channel.send(embed).catch(()=>{});
+    };
 };
