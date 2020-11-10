@@ -70,7 +70,7 @@ const run = async (client, msg, args) => {
 };
 module.exports = {
     name: "help",
-    category: "start",
+    category: "any",
     aliases: ["h"],
     run: run
 };
