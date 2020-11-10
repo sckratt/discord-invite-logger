@@ -20,7 +20,7 @@ removeWebhookURL=ZZZZZ
     * __YYYYY__ par le lien du webhook par lequel le bot enverra le message lorsqu'il rejoindra un serveur.
     * __ZZZZZ__ par le lien du webhook par lequel le bot enverra le message lorsqu'il quittera un serveur.
 10.  Invitez votre bot via le lien d'invitation via l'onglet **OAuth2**.
-11.  Enfin, pour lancer le projet, double-cliquez sur le fichier __**start.bat**__
+11.  Enfin, pour lancer le bot, double-cliquez sur le fichier __**start.bat**__
 12. Si vous avez des questions, ouvrez un commentaire dans l'onglet GitHub **[Issues](https://github.com/aeziotech/bunny-logger/issues)**.
 
 __**PS :**__
