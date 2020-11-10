@@ -71,7 +71,7 @@ const run = async (client, msg, args) => {
 module.exports = {
     name: "help",
     category: "any",
-    description: "Envoie la liste des commandes ou les informations sur la commande donnée.",
+    description: "``help`` : Envoie la liste des commandes ou les informations sur la commande donnée.",
     usage: "``[commande]``",
     aliases: ["h"],
     run: run

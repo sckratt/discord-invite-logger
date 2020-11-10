@@ -5,7 +5,7 @@ module.exports = {
 
     /* EMOJIS */ //! Veuillez fournir Le nom de l'émoji
     emojis: {
-        guildsID: [ "XXXXX" ], //? Les identifiants des serveurs dans lesquels les émojis se trouvent.
+        guildsID: [ "775060039228194838" ], //? Les identifiants des serveurs dans lesquels les émojis se trouvent.
         success:    "yes",
         error:      "no",
         group:      "group",
