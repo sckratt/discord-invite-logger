@@ -45,5 +45,6 @@ const run = async (client, msg, args) => {
 
 module.exports = {
     name: "members",
+    category: "invitelogger",
     run: run
 };

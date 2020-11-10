@@ -103,6 +103,7 @@ const run = async (client, msg, args) => {
 
 module.exports = {
     name: "infos",
+    category: "invitelogger",
     aliases: ["info"],
     run: run
 };

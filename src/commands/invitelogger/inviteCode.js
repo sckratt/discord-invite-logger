@@ -82,6 +82,7 @@ const run = async (client, msg, args) => {
 
 module.exports = {
     name: "inviteCode",
+    category: "invitelogger",
     aliases: ["ic"],
     run: run
 };
