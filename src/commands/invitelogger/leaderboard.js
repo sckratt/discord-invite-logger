@@ -66,7 +66,7 @@ const run = async (client, msg, args) => {
                         await reaction.users.remove(msg.author.id);
                     }
                 } catch {};
-            }).catch(() => {
+            }).catch(async () => {
                 await message.delete().catch(()=>{});
             });
         };
