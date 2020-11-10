@@ -9,9 +9,16 @@
 7.  Entrez les informations demandées.
 8.  Créer un fichier que vous nommerez **.env** dans lequel vous écrirez:
 ```
-token=XXXXX
+token=WWWWW
+statusWebhookURL=XXXXX
+addWebhookURL=YYYYY
+removeWebhookURL=ZZZZZ
 ```
-9.  Remplacer le __XXXXX__ par le token de votre bot copié précédemment.
+9.  Remplacer:
+    * __WWWWW__ par le token de votre bot copié précédemment.
+    * __XXXXX__ par le lien du webhook par lequel le bot enverra le message lorsqu'il se connectera.
+    * __YYYYY__ par le lien du webhook par lequel le bot enverra le message lorsqu'il rejoindra un serveur.
+    * __ZZZZZ__ par le lien du webhook par lequel le bot enverra le message lorsqu'il quittera un serveur.
 10.  Invitez votre bot via le lien d'invitation via l'onglet **OAuth2**.
 11.  Enfin, pour lancer le projet, double-cliquez sur le fichier __**start.bat**__
 12. Si vous avez des questions, ouvrez un commentaire dans l'onglet GitHub **[Issues](https://github.com/aeziotech/bunny-logger/issues)**.
