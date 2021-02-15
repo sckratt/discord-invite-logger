@@ -13,10 +13,16 @@ module.exports = (client, msg) => {
 
     if(!msg.content.startsWith(config.prefix)) return;
 
-    const cmd = msg.content.slice(config.prefix.length).split(" ")[0];
-    const args = msg.content.slice(config.prefix.length + cmd.length).trim().split(/ +/g);
+    let cmd = msg.content.slice(config.prefix.length).split(" ")[0];
+    let args = msg.content.slice(config.prefix.length + cmd.length).trim().split(/ +/g);
 
     let command = client.commands.get(cmd);
     if(!command) command = client.commands.get(client.aliases.get(cmd));
+    if(!command) {
+        cmd = cmd + " " + args[0];
+        args = args.slice(1);
+        command = client.commands.get(cmd);
+        if(!command) command = client.commands.get(client.aliases.get(cmd));
+    }
     if(command) command.run(client, msg, args);
 };
