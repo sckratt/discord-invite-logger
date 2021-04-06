@@ -24,4 +24,4 @@ removeWebhookURL=ZZZZZ
 12. Si vous avez des questions, ouvrez un commentaire dans l'onglet GitHub **[Issues](https://github.com/aeziotech/bunny-logger/issues)**.
 
 __**REJOIGNEZ MOI SUR DISCORD :**__
-[![discord-banner](./assets/img/discord-banner.png)](https://discord.gg/Qd8Tzkj7Q5)
+[![discord-banner](./assets/img/discord-banner.png)](https://discord.gg/jHkcbS9YWC)
