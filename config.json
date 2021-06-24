@@ -1,8 +1,9 @@
 {
     "prefix": "?",
-    "serverID": "746713599501664347",
+    "lang": "fr",
+    "serverID": "",
     "welcome": {
-        "channelId": "855480124715171840",
+        "channelId": "",
         "message": {
             "success": "{user} a rejoint ; Il a été invité par **{inviterName}** ; Il a **{inviteCount}** invitations",
             "unknow": "Je n'ai pas réussi à trouver comment {user} a rejoint.",
