@@ -69,7 +69,7 @@ module.exports = async (client, interaction) => {
                         page.filter(j => client.users.cache.has(j.id))
                         .map((join) => {
                             let user = client.users.cache.get(join.id);
-                            return `${join.left ? "❌" : join.fake ? "💩" : "✅"} ${user.toString()} - **${join.inviteCode}** - ${translate(`il y a **${fromIntToDate(Date.now() +7200000 - join.at)}**`, `**${fromIntToDate(Date.now() +7200000 - join.at)}** ago`)}`
+                            return `${join.left ? "❌" : join.fake ? "💩" : "✅"} ${user.toString()} - **${join.inviteCode}** - ${translate(`il y a **${fromIntToDate(Date.now() +7200000 - join.at)}**`, `**${fromIntToDate(Date.now() +7200000 - join.at, config.lang.toLowerCase())}** ago`)}`
                         }).join("\n") || translate("❌ **Aucun**", "❌ **Any**")
                     ).setFooter(`${translate("Demandé par", "Asked by")}: ${author.tag}`, author.displayAvatarURL({ format: "png" }))
                 pages.push(pageEmbed);
@@ -83,7 +83,7 @@ module.exports = async (client, interaction) => {
                     page.filter(j => client.users.cache.has(j.id))
                     .map((join) => {
                         let user = client.users.cache.get(join.id);
-                        return `${join.left ? "❌" : join.fake ? "💩" : "✅"} ${user.toString()} - **${join.inviteCode}** - ${translate(`il y a **${fromIntToDate(Date.now() +7200000 - join.at)}**`, `**${fromIntToDate(Date.now() +7200000 - join.at)}** ago`)}`
+                        return `${join.left ? "❌" : join.fake ? "💩" : "✅"} ${user.toString()} - **${join.inviteCode}** - ${translate(`il y a **${fromIntToDate(Date.now() +7200000 - join.at)}**`, `**${fromIntToDate(Date.now() +7200000 - join.at, config.lang.toLowerCase())}** ago`)}`
                     }).join("\n") || translate("❌ **Aucun**", "❌ **Asked by**")
                 ).setFooter(`${translate("Demandé par", "Asked by")}: ${author.tag}`, author.displayAvatarURL({ format: "png" }))
             pages.push(pageEmbed);
@@ -164,7 +164,7 @@ module.exports = async (client, interaction) => {
                 .array().slice(0, 10)
                 .map(m => {
                     let u = db.get(`users.${m.user.id}`);
-                    return `${m.user.toString()} - **${u.joins[u.joins.length-1].inviteCode}** - ${translate(`il y a **${fromIntToDate(Date.now() - (u.joins[u.joins.length-1].at -7200000))}**`, `**${fromIntToDate(Date.now() - (u.joins[u.joins.length-1].at -7200000))}** ago`)}`
+                    return `${m.user.toString()} - **${u.joins[u.joins.length-1].inviteCode}** - ${translate(`il y a **${fromIntToDate(Date.now() - (u.joins[u.joins.length-1].at -7200000))}**`, `**${fromIntToDate(Date.now() - (u.joins[u.joins.length-1].at -7200000, config.lang.toLowerCase()))}** ago`)}`
                 }).join("\n") || translate("❌ **Aucun**", "❌ **Any**")
             ).setFooter(`${translate("Demandé par", "Asked by")}: ${author.tag}`, author.displayAvatarURL({ format: "png" }))
 
