@@ -55,7 +55,7 @@ module.exports = async (client, guildMember) => {
             .replace(/{userTag}/g, guildMember.user.tag)
             .replace(/{userName}/g, guildMember.user.username)
             .replace(/{createdAt}/g, moment.utc(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() +2)).format("DD/MM/YYYY à HH:mm"))
-            .replace(/{createdTimestamp}/g, fromIntToDate(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() +2)))
+            .replace(/{createdTimestamp}/g, fromIntToDate(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() +2), config.lang.toLowerCase()))
             .replace(/{memberCount}/g, guildMember.guild.members.cache.filter(m => !m.user.bot).size)
         if(config.welcome.isEmbed) {
             var message = new MessageEmbed()
@@ -100,7 +100,7 @@ module.exports = async (client, guildMember) => {
             .replace(/{userTag}/g, guildMember.user.tag)
             .replace(/{userName}/g, guildMember.user.username)
             .replace(/{createdAt}/g, moment.utc(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() +2)).format("DD/MM/YYYY à HH:mm"))
-            .replace(/{createdTimestamp}/g, fromIntToDate(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() +2)))
+            .replace(/{createdTimestamp}/g, fromIntToDate(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() +2), config.lang.toLowerCase()))
             .replace(/{inviteCode}/g, invite.code)
             .replace(/{memberCount}/g, guildMember.guild.members.cache.filter(m => !m.user.bot).size)
         if(config.welcome.isEmbed) {
@@ -144,7 +144,7 @@ module.exports = async (client, guildMember) => {
             .replace(/{userTag}/g, guildMember.user.tag)
             .replace(/{userName}/g, guildMember.user.username)
             .replace(/{createdAt}/g, moment.utc(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() +2)).format("DD/MM/YYYY à HH:mm"))
-            .replace(/{createdTimestamp}/g, fromIntToDate(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() +2)))
+            .replace(/{createdTimestamp}/g, fromIntToDate(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() +2), config.lang.toLowerCase()))
             .replace(/{inviteCode}/g, invite.code)
             .replace(/{memberCount}/g, guildMember.guild.members.cache.filter(m => !m.user.bot).size)
         if(config.welcome.isEmbed) {
@@ -203,7 +203,7 @@ module.exports = async (client, guildMember) => {
             .replace(/{userTag}/g, guildMember.user.tag)
             .replace(/{userName}/g, guildMember.user.username)
             .replace(/{createdAt}/g, moment.utc(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() +2)).format("DD/MM/YYYY à HH:mm"))
-            .replace(/{createdTimestamp}/g, fromIntToDate(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() +2)))
+            .replace(/{createdTimestamp}/g, fromIntToDate(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() +2), config.lang.toLowerCase()))
             .replace(/{inviteCode}/g, invite.code)
             .replace(/{memberCount}/g, guildMember.guild.members.cache.filter(m => !m.user.bot).size)
             .replace(/{inviter}/g, invite.inviter.toString())
