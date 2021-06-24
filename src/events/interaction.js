@@ -123,7 +123,7 @@ module.exports = async (client, interaction) => {
             })
         }; let user = db.get(`users.${member.user.id}`);
 
-        let regularInvites = `${member.user.id == interaction.customID.split("_")[2] ? "**Vous** avez" : member.user.toString() + " a"} **${Object.values(user.invites).reduce((x,y)=>x+y)}** invitations.\n\n` +
+        let regularInvites = `${member.user.id == interaction.customID.split("_")[2] ? translate("**Vous** avez", "**You** have") : member.user.toString() + translate(" a", " has")} **${Object.values(user.invites).reduce((x,y)=>x+y)}** ${translate("invitations", "invites")}.\n\n` +
         `✅ \`\`${user.invites.normal}\`\` **${translate("Invités", "Invited")}**\n` +
         `❌ \`\`${user.invites.left}\`\` **${translate("Partis", "Left")}**\n` +
         `💩 \`\`${user.invites.fake}\`\` **${translate("Invalidés", "Invalid")}**\n` +
@@ -137,7 +137,7 @@ module.exports = async (client, interaction) => {
             .setAuthor(member.user.tag, member.user.displayAvatarURL({ format: "png" }))
             .addField(
                 translate("__Invité par__", "__Invited by__"),
-                user.joins.length ? user.joins[user.joins.length-1].by == "vanity" ? "URL personnalisée" : user.joins[user.joins.length-1].by ? (client.users.cache.get(user.joins[user.joins.length-1].by) || await client.users.fetch(user.joins[user.joins.length-1].by)).toString() : "❌ **Introuvable**" : "❌ **Introuvable**",
+                user.joins.length ? user.joins[user.joins.length-1].by == "vanity" ? "URL personnalisée" : user.joins[user.joins.length-1].by ? (client.users.cache.get(user.joins[user.joins.length-1].by) || await client.users.fetch(user.joins[user.joins.length-1].by)).toString() : translate("❌ **Introuvable**", "❌ **Not found**") : translate("❌ **Introuvable**", "❌ **Not found**"),
                 true
             ).addField("\u200b", "\u200b", true)
             .addField(
@@ -163,7 +163,7 @@ module.exports = async (client, interaction) => {
                 .array().slice(0, 10)
                 .map(m => {
                     let u = db.get(`users.${m.user.id}`);
-                    return `${m.user.toString()} - **${u.joins[u.joins.length-1].inviteCode}** - ${translate(`il y a **${fromIntToDate(Date.now() - (u.joins[u.joins.length-1].at -7200000))}**`, `**${fromIntToDate(Date.now() - (u.joins[u.joins.length-1].at -7200000, config.lang.toLowerCase()))}** ago`)}`
+                    return `${m.user.toString()} - **${u.joins[u.joins.length-1].inviteCode}** - ${translate(`il y a **${fromIntToDate(Date.now() - u.joins[u.joins.length-1].at +7200000)}**`, `**${fromIntToDate(Date.now() - u.joins[u.joins.length-1].at +7200000, config.lang.toLowerCase())}** ago`)}`
                 }).join("\n") || translate("❌ **Aucun**", "❌ **Any**")
             ).setFooter(`${translate("Demandé par", "Asked by")}: ${author.tag}`, author.displayAvatarURL({ format: "png" }))
 
