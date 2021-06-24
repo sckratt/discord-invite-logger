@@ -10,9 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "discord-handling": "^1.1.1",
+    "discord-handling": "^1.1.2",
     "discord-toolbox": "^1.0.7",
-    "discord.js": "^13.0.0-dev.e0efcc6ab0e3f060e30438c0d990c9465c6134df",
+    "discord.js": "^13.0.0-dev.ca2a36b1d713a743045b15adf99eda69a6fdbec7",
     "dotenv": "^10.0.0",
     "enmap": "^5.8.5",
     "moment": "^2.29.1",
