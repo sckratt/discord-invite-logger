@@ -101,7 +101,6 @@ module.exports = async (client, interaction) => {
         }
 
         interaction.update({ embeds: pages, components: [backButtonActionRaw] });
-        await interaction.message.react("👍");
     } else if(interaction.customID.startsWith("info") && interaction.customID.split("_")[2] == interaction.user.id) {
         const author = interaction.user;
         const member = interaction.guild.members.cache.get(interaction.customID.split("_")[1]);
