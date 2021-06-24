@@ -1,42 +1,23 @@
-const { Client, Collection, MessageEmbed, WebhookClient } = require('discord.js');
-const chalk = require('chalk');
+const { Client } = require('discord.js');
 const db = require('quick.db');
-const colors = require('hexacolors');
-const { toRemaining, fromIntToLocalDate } = require('versus-tools');
+
 /**
+ * 
  * @param {Client} client 
  */
 module.exports = async (client) => {
-    console.log(
-        chalk.green(`[+] Connecté à Discord en tant que ${client.user.tag} (ID: ${client.user.id})`)
-    );
-    let hook = {
-        id: process.env.statusWebhookURL.split("/")[5],
-        token: process.env.statusWebhookURL.split("/")[6],
-    }; const webhook = new WebhookClient(hook.id, hook.token);
-    let embed = new MessageEmbed()
-        .setColor(colors.green)
-        .setDescription(`${client.emotes.get("yes").toString()} ***Le bot est maintenant connecté et prêt à être utilisé.***`)
-    webhook.send(embed).catch(()=>{});
-    client.guilds.cache.forEach(async (guild) => {
-        if(!db.has(`guilds.${guild.id}`)) {
-            db.set(`guilds.${guild.id}`, {
-                prefix: client.config.defaultPrefix,
-                moderators: [],
-                ranks: [],
-                welcomeMessage: "{memberMention} a été invité par **{inviterTag}** qui a maintenant **{inviteCount}** invitations.",
-                welcomeChannelID: guild.channels.cache.filter(c => c.type == "text").random().id,
-                logsChannel: false,
-                commandsChannelsID: false,
-                ignoredChannels: []
+    console.log(`Connecté en tant que ${client.user.tag}`);
+    let guildInvites = (await client.guilds.cache.get(require('../../config.json').serverID).fetchInvites());
+    guildInvites
+        .array()
+        .forEach(i => {
+            db.set(`invites.${i.code}`, {
+                inviterId: i.inviter?.id,
+                code: i.code,
+                uses: i.uses
             });
-        };
-        try {
-            (await guild.fetchInvites()).forEach(async (invite) => {
-                if(invite.code == guild.vanityURLCode) {
-                    db.set(`guildInvites.${guild.id}.vanity`, invite.uses);
-                } else db.set(`guildInvites.${guild.id}.${invite.code}`, invite.uses);
-            });
-        } catch {};
-    });
-};
+        });
+    Object.values(db.get("invites"))
+        .filter(i => !guildInvites.has(i.code))
+        .forEach(i => db.delete(`invites.${i.code}`))
+}

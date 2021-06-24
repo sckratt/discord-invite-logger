@@ -1,0 +1,21 @@
+{
+  "name": "discord-invite-logger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord-handling": "^1.1.1",
+    "discord-toolbox": "^1.0.7",
+    "discord.js": "^13.0.0-dev.e0efcc6ab0e3f060e30438c0d990c9465c6134df",
+    "dotenv": "^10.0.0",
+    "enmap": "^5.8.5",
+    "moment": "^2.29.1",
+    "quick.db": "^7.1.3"
+  }
+}

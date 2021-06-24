@@ -1,0 +1,15 @@
+{
+    "prefix": "?",
+    "serverID": "746713599501664347",
+    "welcome": {
+        "channelId": "855480124715171840",
+        "message": {
+            "success": "{user} a rejoint ; Il a été invité par **{inviterName}** ; Il a **{inviteCount}** invitations",
+            "unknow": "Je n'ai pas réussi à trouver comment {user} a rejoint.",
+            "vanity": "{user} a rejoint via l'URL personnalisée.",
+            "self-invite": "{user} a rejoint en utilisant sa propre invitation. Elle n'est pas comptabilisée."
+        },
+        "isEmbed": true,
+        "color": "#27ae60"
+    }
+}

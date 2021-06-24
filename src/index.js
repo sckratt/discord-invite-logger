@@ -1,30 +1,18 @@
 require('dotenv').config();
 
+const db = require('quick.db');
+const { Client, Intents } = require('discord.js');
+const { Handler } = require('discord-handling');
 
-const { Client, Collection, Message, MessageEmbed } = require('discord.js');
-const chalk = require('chalk');
-const colors = require('hexacolors');
+var handler = new Handler({
+    indexPath: __dirname,
+    token: process.env.token,
+    prefix: require('../config.json').prefix
+});
+handler.createCommandCollection()
+.createEventCollection()
+.handleEvents()
 
-const client = new Client();
-client.commands = new Collection();
-client.aliases = new Collection();
-client.config = require('../config');
-client.emotes = new Collection();
-
-try {
-    client.login(process.env.token);
-} catch {
-    console.log(
-        chalk.red("[!] Impossible de se connecter à Discord. Veuillez vérifier que le token fourni est valide !")
-    );
+handler.getClient().sendError = (msg, content) => {
+    return msg.reply(`🧐 - **${content}**`);
 };
-
-//? HANDLER
-["commands", "emojis"].forEach(handler => {
-    require(`./handler/${handler}`)(client);
-});
-
-//? EVENTS
-["ready", "disconnect", "message", "guildMemberAdd", "guildMemberRemove"].forEach(event => {
-    client.on(event, (x, y) => require(`./events/${event}`)(client, x, y));
-});

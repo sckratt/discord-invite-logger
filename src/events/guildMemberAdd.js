@@ -1,210 +1,224 @@
-const { Client, GuildMember } = require('discord.js');
+const { Client, GuildMember, MessageEmbed } = require('discord.js');
 const db = require('quick.db');
+const { colors, fromIntToDate } = require('discord-toolbox');
+const config = require('../../config.json');
 const moment = require('moment');
 
 /**
- * @param {Client} client
- * @param {GuildMember} guildMember
+ * @param {Client} client 
+ * @param {GuildMember} guildMember 
  */
 module.exports = async (client, guildMember) => {
-    if(!guildMember.guild.available) return;
-
-    const config = db.get(`guilds.${guildMember.guild.id}`);
-
-    try {
-        let inviteSent = false;
-        (await guildMember.guild.fetchInvites()).forEach(async (invite) => {
-            let inviteCode = invite.code == guildMember.guild.vanityURLCode ? "vanity" : invite.code;
-            if(!db.has(`guildInvites.${guildMember.guild.id}.${inviteCode}`)) db.set(`guildInvites.${guildMember.guild.id}.${inviteCode}`, 0);
-            const uses = db.get(`guildInvites.${guildMember.guild.id}.${inviteCode}`);
-            if(invite.uses == uses) return;
-            inviteSent = true;
-            
-            const channel = guildMember.guild.channels.cache.get(config.welcomeChannelID);
-            if(!channel || !["text", "news"].includes(channel.type)) db.set(`guilds.${guildMember.guild.id}.welcomeChannelID`, false);
-            /* IF VANITY */
-            if(inviteCode == "vanity") {
-                db.set(`guildInvites.${guildMember.guild.id}.${inviteCode}`, invite.uses);
-
-                //? User setup
-                if(!db.has(`userInvites.${guildMember.guild.id}.${guildMember.user.id}`)) {
-                    db.set(`userInvites.${guildMember.guild.id}.${guildMember.user.id}`, {
-                        count: {
-                            ordinaries: 0,
-                            bonus: 0,
-                            fakes: 0,
-                            leaves: 0,
-                            total: 0,
-                            reloaded: {
-                                ordinaries: 0,
-                                bonus: 0,
-                                fakes: 0,
-                                leaves: 0,
-                                total: 0,
-                            }
-                        },
-                        joined: []
-                    });
-                };
-                db.push(`userInvites.${guildMember.guild.id}.${guildMember.user.id}.joined`, {
-                    fake: false,
-                    by: "vanity",
-                    at: guildMember.joinedAt,
-                    inviteCode: inviteCode
-                });
-                
-                let message = config.welcomeMessage
-                    //! INVITER PARAMS
-                    .replace(/{inviterMention}/g, "L'URL personnalisé")
-                    .replace(/{inviterTag}/g, "L'URL personnalisé")
-                    .replace(/{inviterUsername}/g, "L'URL personnalisé")
-                    .replace(/{inviterID}/g, invite.code)
-                    .replace(/{inviteCount}/g, "Inconnu")
-                    //! MEMBER PARAMS
-                    .replace(/{memberMention}/g, guildMember.user.toString())
-                    .replace(/{memberTag}/g, guildMember.user.tag)
-                    .replace(/{memberUsername}/g, guildMember.user.username)
-                    .replace(/{memberID}/g, guildMember.user.id)
-                    .replace(/{memberCreatedAt}/g, moment.utc(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() + 1)).format("DD/MM/YYYY à HH:mm:ss"))
-                try {
-                    channel.send(message)
-                } catch {};
-            }
-            /* IF NOT VANITY BUT USER */
-            else if(invite.inviter) {
-                //? Users setup
-                if(!db.has(`userInvites.${guildMember.guild.id}.${guildMember.user.id}`)) {
-                    db.set(`userInvites.${guildMember.guild.id}.${guildMember.user.id}`, {
-                        count: {
-                            ordinaries: 0,
-                            bonus: 0,
-                            fakes: 0,
-                            leaves: 0,
-                            total: 0,
-                            reloaded: {
-                                ordinaries: 0,
-                                bonus: 0,
-                                fakes: 0,
-                                leaves: 0,
-                                total: 0,
-                            }
-                        },
-                        joined: []
-                    });
-                };
-                if(!db.has(`userInvites.${guildMember.guild.id}.${invite.inviter.id}`)) {
-                    db.set(`userInvites.${guildMember.guild.id}.${invite.inviter.id}`, {
-                        count: {
-                            ordinaries: 0,
-                            bonus: 0,
-                            fakes: 0,
-                            leaves: 0,
-                            total: 0,
-                            reloaded: {
-                                ordinaries: 0,
-                                bonus: 0,
-                                fakes: 0,
-                                leaves: 0,
-                                total: 0,
-                            }
-                        },
-                        joined: [{
-                            fake: false,
-                            by: false,
-                            at: guildMember.guild.member(invite.inviter) ? guildMember.guild.member(invite.inviter).joinedAt : false,
-                            inviteCode: false
-                        }]
-                    });
-                };
-                //? Fake verification
-                let fake = false;
-
-                let lastJoined = db.get(`userInvites.${guildMember.guild.id}.${guildMember.user.id}`).joined[db.get(`userInvites.${guildMember.guild.id}.${guildMember.user.id}`).joined.length - 1];
-                if(lastJoined && lastJoined.by == invite.inviter.id) {
-                    fake = true;
-                    if(db.has(`userInvites.${guildMember.guild.id}.${invite.inviter.id}.count.leaves`)) {
-                        db.subtract(`userInvites.${guildMember.guild.id}.${lastJoined.by}.count.leaves`, 1);
-                    }
-                };
-
-                //? Invites update
-                db.push(`userInvites.${guildMember.guild.id}.${guildMember.user.id}.joined`, {
-                    fake: fake,
-                    by: invite.inviter.id,
-                    at: guildMember.joinedAt,
-                    inviteCode: inviteCode
-                });
-                db.add(`userInvites.${guildMember.guild.id}.${invite.inviter.id}.count.ordinaries`, 1);
-                db.add(`userInvites.${guildMember.guild.id}.${invite.inviter.id}.count.total`, 1);
-                if(fake) {
-                    db.add(`userInvites.${guildMember.guild.id}.${invite.inviter.id}.count.fakes`, 1);
-                    db.subtract(`userInvites.${guildMember.guild.id}.${invite.inviter.id}.count.total`, 1);
-                };
-
-                //? Message Manager
-                let message = config.welcomeMessage
-                    //! INVITER PARAMS
-                    .replace(/{inviterMention}/g, invite.inviter.toString())
-                    .replace(/{inviterTag}/g, invite.inviter.tag)
-                    .replace(/{inviterUsername}/g, invite.inviter.username)
-                    .replace(/{inviterID}/g, invite.inviter.id)
-                    .replace(/{inviteCount}/g, db.get(`userInvites.${guildMember.guild.id}.${invite.inviter.id}.count.total`))
-                    //! MEMBER PARAMS
-                    .replace(/{memberMention}/g, guildMember.user.toString())
-                    .replace(/{memberTag}/g, guildMember.user.tag)
-                    .replace(/{memberUsername}/g, guildMember.user.username)
-                    .replace(/{memberID}/g, guildMember.user.id)
-                    .replace(/{memberCreatedAt}/g, moment.utc(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() + 1)).format("DD/MM/YYYY à HH:mm:ss"))
-                try {
-                    channel.send(message)
-                } catch {};
-            }
-            /* IF NOT VANITY AND NOT USER */
-            else {
-                //? User setup
-                if(!db.has(`userInvites.${guildMember.guild.id}.${guildMember.user.id}`)) {
-                    db.set(`userInvites.${guildMember.guild.id}.${guildMember.user.id}`, {
-                        count: {
-                            ordinaries: 0,
-                            bonus: 0,
-                            fakes: 0,
-                            leaves: 0,
-                            total: 0,
-                            reloaded: {
-                                ordinaries: 0,
-                                bonus: 0,
-                                fakes: 0,
-                                leaves: 0,
-                                total: 0,
-                            }
-                        },
-                        joined: []
-                    });
-                };
-                db.push(`userInvites.${guildMember.guild.id}.${guildMember.user.id}.joined`, {
-                    fake: false,
-                    by: false,
-                    at: guildMember.joinedAt,
-                    inviteCode: inviteCode
-                });
-                
-                let message = config.welcomeMessage
-                    //! INVITER PARAMS
-                    .replace(/{inviterMention}/g, "Inconnu")
-                    .replace(/{inviterTag}/g, "Inconnu")
-                    .replace(/{inviterUsername}/g, "Inconnu")
-                    .replace(/{inviterID}/g, invite.code)
-                    .replace(/{inviteCount}/g, "Inconnu")
-                    //! MEMBER PARAMS
-                    .replace(/{memberMention}/g, guildMember.user.toString())
-                    .replace(/{memberTag}/g, guildMember.user.tag)
-                    .replace(/{memberUsername}/g, guildMember.user.username)
-                    .replace(/{memberID}/g, guildMember.user.id)
-                    .replace(/{memberCreatedAt}/g, moment.utc(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() + 1)).format("DD/MM/YYYY à HH:mm:ss"))
-                try {
-                    channel.send(message)
-                } catch {};
-            }
+    if(!guildMember.guild.available || guildMember.user.bot || guildMember.guild.id !== config.serverID) return;
+    if(!db.has(`users.${guildMember.user.id}`)) db.set(`users.${guildMember.user.id}`, {
+        id: guildMember.user.id,
+        joins: [],
+        invites: {
+            normal: 0,
+            left: 0,
+            fake: 0,
+            bonus: 0
+        }
+    });
+    let invite = (await guildMember.guild.fetchInvites())
+        .find(i => db.has(`invites.${i.code}`) && db.get(`invites.${i.code}`).uses < i.uses);
+    if(!invite) {
+        if(db.has(`users.${guildMember.user.id}`)) {
+            let updatedUserIDs = [];
+            db.get(`users.${guildMember.user.id}.joins`)
+                .filter(j => j.by && ![guildMember.user.id, "vanity"].includes(j.by))
+                .forEach(j => {
+                    if(updatedUserIDs.includes(j.by)) return;
+                    updatedUserIDs.push(j.by);
+                    db.add(`users.${j.by}.invites.left`, 1);
+                    db.subtract(`users.${j.by}.invites.fake`, 1);
+                })
+        } else {
+            db.set(`users.${guildMember.user.id}`, {
+                id: guildMember.user.id,
+                joins: [],
+                invites: {
+                    normal: 0,
+                    left: 0,
+                    fake: 0,
+                    bonus: 0
+                }
+            })
+        };
+        db.push(`users.${guildMember.user.id}.joins`, {
+            at: new Date().setHours(new Date().getHours() +2),
+            by: undefined,
+            inviteCode: undefined
         });
-    } catch {};
-};
+        let content = config.welcome.message.unknow
+            .replace(/{user}/g, guildMember.user.toString())
+            .replace(/{userTag}/g, guildMember.user.tag)
+            .replace(/{userName}/g, guildMember.user.username)
+            .replace(/{createdAt}/g, moment.utc(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() +2)).format("DD/MM/YYYY à HH:mm"))
+            .replace(/{createdTimestamp}/g, fromIntToDate(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() +2)))
+            .replace(/{memberCount}/g, guildMember.guild.members.cache.filter(m => !m.user.bot).size)
+        if(config.welcome.isEmbed) {
+            var message = new MessageEmbed()
+                .setColor(config.welcome.color)
+                .setDescription(content)
+        } else var message = content;
+        guildMember.guild.channels.cache.get(config.welcome.channelId)
+            .send(message);
+    } else if(invite.code == guildMember.guild.vanityURLCode) {
+        if(db.has(`users.${guildMember.user.id}`)) {
+            let updatedUserIDs = [];
+            db.get(`users.${guildMember.user.id}.joins`)
+                .filter(j => j.by && ![guildMember.user.id, "vanity"].includes(j.by))
+                .forEach(j => {
+                    if(updatedUserIDs.includes(j.by)) return;
+                    updatedUserIDs.push(j.by);
+                    db.add(`users.${j.by}.invites.left`, 1);
+                    db.subtract(`users.${j.by}.invites.fake`, 1);
+                })
+        } else {
+            db.set(`users.${guildMember.user.id}`, {
+                id: guildMember.user.id,
+                joins: [],
+                invites: {
+                    normal: 0,
+                    left: 0,
+                    fake: 0,
+                    bonus: 0
+                }
+            })
+        }; if(!db.has(`users.vantiy`)) {
+            db.set(`users.vantiy`, 0);
+        }; db.add(`users.vanity`, 1);
+
+        db.push(`users.${guildMember.user.id}.joins`, {
+            at: guildMember.joinedAt.setHours(guildMember.joinedAt.getHours() +2),
+            by: "vanity",
+            inviteCode: invite.code
+        });
+        let content = config.welcome.message.vanity
+            .replace(/{user}/g, guildMember.user.toString())
+            .replace(/{userTag}/g, guildMember.user.tag)
+            .replace(/{userName}/g, guildMember.user.username)
+            .replace(/{createdAt}/g, moment.utc(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() +2)).format("DD/MM/YYYY à HH:mm"))
+            .replace(/{createdTimestamp}/g, fromIntToDate(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() +2)))
+            .replace(/{inviteCode}/g, invite.code)
+            .replace(/{memberCount}/g, guildMember.guild.members.cache.filter(m => !m.user.bot).size)
+        if(config.welcome.isEmbed) {
+            var message = new MessageEmbed()
+                .setColor(config.welcome.color)
+                .setDescription(content)
+        } else var message = content;
+        guildMember.guild.channels.cache.get(config.welcome.channelId)
+            .send(message);
+    } else if(invite.inviter?.id == guildMember.user.id) {
+        if(db.has(`users.${guildMember.user.id}`)) {
+            let updatedUserIDs = [];
+            db.get(`users.${guildMember.user.id}.joins`)
+                .filter(j => j.by && ![guildMember.user.id, "vanity"].includes(j.by))
+                .forEach(j => {
+                    if(updatedUserIDs.includes(j.by)) return;
+                    updatedUserIDs.push(j.by);
+                    db.add(`users.${j.by}.invites.left`, 1);
+                    db.subtract(`users.${j.by}.invites.fake`, 1);
+                })
+        } else {
+            db.set(`users.${guildMember.user.id}`, {
+                id: guildMember.user.id,
+                joins: [],
+                invites: {
+                    normal: 0,
+                    left: 0,
+                    fake: 0,
+                    bonus: 0
+                }
+            })
+        };
+
+        db.push(`users.${guildMember.user.id}.joins`, {
+            at: guildMember.joinedAt.setHours(guildMember.joinedAt.getHours() +2),
+            by: guildMember.user.id,
+            inviteCode: invite.code
+        });
+        let content = config.welcome.message['self-invite']
+            .replace(/{user}/g, guildMember.user.toString())
+            .replace(/{userTag}/g, guildMember.user.tag)
+            .replace(/{userName}/g, guildMember.user.username)
+            .replace(/{createdAt}/g, moment.utc(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() +2)).format("DD/MM/YYYY à HH:mm"))
+            .replace(/{createdTimestamp}/g, fromIntToDate(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() +2)))
+            .replace(/{inviteCode}/g, invite.code)
+            .replace(/{memberCount}/g, guildMember.guild.members.cache.filter(m => !m.user.bot).size)
+        if(config.welcome.isEmbed) {
+            var message = new MessageEmbed()
+                .setColor(config.welcome.color)
+                .setDescription(content)
+        } else var message = content;
+        guildMember.guild.channels.cache.get(config.welcome.channelId)
+            .send(message);
+    } else {
+        if(db.has(`users.${guildMember.user.id}`)) {
+            let updatedUserIDs = [];
+            db.get(`users.${guildMember.user.id}.joins`)
+                .filter(j => j.by && ![guildMember.user.id, invite.inviter.id, "vanity"].includes(j.by))
+                .forEach(j => {
+                    if(updatedUserIDs.includes(j.by)) return;
+                    updatedUserIDs.push(j.by);
+                    db.add(`users.${j.by}.invites.left`, 1);
+                    db.subtract(`users.${j.by}.invites.fake`, 1);
+                })
+        } else {
+            db.set(`users.${guildMember.user.id}`, {
+                id: guildMember.user.id,
+                joins: [],
+                invites: {
+                    normal: 0,
+                    left: 0,
+                    fake: 0,
+                    bonus: 0
+                }
+            })
+        };
+        if(db.get(`users.${guildMember.user.id}.joins`).map(j => j.by).includes(invite.inviter.id)) db.add(`users.${invite.inviter.id}.invites.left`, 1);
+        else if(!db.has(`users.${invite.inviter.id}`)) {
+            db.set(`users.${invite.inviter.id}`, {
+                id: invite.inviter.id,
+                joins: [],
+                invites: {
+                    normal: 1,
+                    left: 0,
+                    fake: 0,
+                    bonus: 0
+                }
+            })
+        } else db.add(`users.${invite.inviter.id}.invites.normal`, 1);
+
+        db.push(`users.${guildMember.user.id}.joins`, {
+            at: guildMember.joinedAt.setHours(guildMember.joinedAt.getHours() +2),
+            by: invite.inviter.id,
+            inviteCode: invite.code
+        });
+        console.log(1, db.get(`users.${guildMember.user.id}`));
+
+        let content = config.welcome.message.success
+            .replace(/{user}/g, guildMember.user.toString())
+            .replace(/{userTag}/g, guildMember.user.tag)
+            .replace(/{userName}/g, guildMember.user.username)
+            .replace(/{createdAt}/g, moment.utc(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() +2)).format("DD/MM/YYYY à HH:mm"))
+            .replace(/{createdTimestamp}/g, fromIntToDate(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() +2)))
+            .replace(/{inviteCode}/g, invite.code)
+            .replace(/{memberCount}/g, guildMember.guild.members.cache.filter(m => !m.user.bot).size)
+            .replace(/{inviter}/g, invite.inviter.toString())
+            .replace(/{inviterTag}/g, invite.inviter.tag)
+            .replace(/{inviterName}/g, invite.inviter.username)
+            .replace(/{inviteCount}/g, Object.values(db.get(`users.${invite.inviter.id}.invites`)).reduce((x,y)=>x+y))
+        if(config.welcome.isEmbed) {
+            var message = new MessageEmbed()
+                .setColor(config.welcome.color)
+                .setDescription(content)
+        } else var message = content;
+        guildMember.guild.channels.cache.get(config.welcome.channelId)
+            .send(message);
+
+            
+        console.log(2, db.get(`users.${guildMember.user.id}`));
+    }
+}
