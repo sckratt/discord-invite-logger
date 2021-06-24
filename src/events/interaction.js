@@ -37,16 +37,18 @@ module.exports = async (client, interaction) => {
         let pages = [];
         let page = [];
         invites.sort((a,b) => b.at - a.at);
-        let updatedUserIDs = [];
+        let userUpdatedIDs = [];
         var definitiveInvites = [];
         invites.forEach(j => {
             let userDB = db.get(`users.${j.id}`)
             if(interaction.guild.members.cache.has(j.id)) {
                 var left = false;
                 if(userDB.joins[userDB.joins.length-1].by !== member.user.id) var fake = true;
-                else if(updatedUserIDs.includes(j.by)) var fake = true;
-                else var fake = false;
-                updatedUserIDs.push(j.by);
+                else if(userUpdatedIDs.includes(j.id)) var fake = true;
+                else {
+                    var fake = false;
+                    userUpdatedIDs.push(j.id);
+                };
             } else { var fake = false; var left = true; };
             definitiveInvites.push({
                 at: j.at,
@@ -221,8 +223,6 @@ module.exports = async (client, interaction) => {
                     ).setFooter(author.tag, author.displayAvatarURL({ format: "png" }))
             )
         };
-        console.log("page", page);
-        console.log("pages", pages);
         
         let backButton = new MessageButton()
             .setCustomID(`info_${member.user.id}_${interaction.customID.split("_")[2]}`)
