@@ -10,6 +10,20 @@
 9.  Invitez votre bot via le lien d'invitation via l'onglet **OAuth2**.
 10. Enfin, pour lancer le bot, double-cliquez sur le fichier __**start.bat**__
 11. Si vous avez des questions, ouvrez un commentaire dans l'onglet GitHub **[Issues](https://github.com/aeziotech/discord-invite-logger/issues)**.
+12. Voici les variables possible dans la configuration des message du __**config.json**__ :
+```
+{user} : Mention du membre
+{userName} : Nom d'utilisateur du membre
+{userTag} : Tag du membre
+{createdAt} : La date de création du compte du membre
+{createdTimestamp} : Le temps écoulé depuis la création du compte du membre
+{inviteCode} : Le code de l'invitation qui lui a permis de rejoindre le serveur
+{memberCount} : Le nombre de membre dans le serveur (ne compte pas les bots)
+{inviter} : Mention du membre qui a invité
+{inviterName} : Nom d'utilisateur du membre qui a invité
+{inviterTag} : Tag du membre qui a invité
+{inviteCount} : Nombre d'invitation du membre qui a invité
+```
 
 ### Plus de fonctionnalités à venir... Tenez vous informé
 
