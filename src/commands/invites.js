@@ -45,6 +45,7 @@ const run = async (client, msg, args) => {
             `✨ \`\`${user.invites.bonus}\`\` **Bonus**\n\n` +
             `${translate("Actuellement", "Currently")} **${(rank.map(r => r.id).indexOf(member.user.id)+1).toLocaleString("fr")}${translate("e", rank.map(r => r.id).indexOf(member.user.id)+1 == 1 ? "st" : rank.map(r => r.id).indexOf(member.user.id)+1 == 2 ? "nd" : rank.map(r => r.id).indexOf(member.user.id)+1 == 3 ? "rd" : "th")}** / ${msg.guild.members.cache.filter(m => !m.user.bot).size}`
         ).setFooter(`${translate("Demandé par", "Asked by")}: ${msg.author.tag}`, msg.author.displayAvatarURL({ format: "png" }))
+
     msg.channel.send({ embeds: [embed] });
 };
 
