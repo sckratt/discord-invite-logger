@@ -59,32 +59,32 @@ module.exports = async (client, interaction) => {
                 left: left
             })
         });
-        definitiveInvites.forEach(j => {
+        definitiveInvites.forEach(async (j) => {
             page.push(j);
             if(page.length >= 20) {
+                let resolvedPage = await Promise.all(page.map(async (join) => {
+                    let user = client.users.cache.get(join.id) || await client.users.fetch(join.id);
+                    return `${join.left ? "❌" : join.fake ? "💩" : "✅"} ${user.toString()} - **${join.inviteCode}** - ${translate(`il y a **${fromIntToDate(Date.now() + 7200000 - join.at)}**`, `**${fromIntToDate(Date.now() + 7200000 - join.at, config.lang.toLowerCase())}** ago`)}`;
+                }));
                 let pageEmbed = new MessageEmbed()
                     .setColor(colors.blue)
                     .setAuthor(member.user.tag, member.user.displayAvatarURL({ format: "png" }))
                     .setDescription(
-                        page.filter(j => client.users.cache.has(j.id))
-                        .map((join) => {
-                            let user = client.users.cache.get(join.id);
-                            return `${join.left ? "❌" : join.fake ? "💩" : "✅"} ${user.toString()} - **${join.inviteCode}** - ${translate(`il y a **${fromIntToDate(Date.now() +7200000 - join.at)}**`, `**${fromIntToDate(Date.now() +7200000 - join.at, config.lang.toLowerCase())}** ago`)}`
-                        }).join("\n") || translate("❌ **Aucun**", "❌ **Any**")
+                        resolvedPage.join("\n") || translate("❌ **Aucun**", "❌ **Any**")
                     ).setFooter(`${translate("Demandé par", "Asked by")}: ${author.tag}`, author.displayAvatarURL({ format: "png" }))
                 pages.push(pageEmbed);
                 page = [];
             };
         }); if(page.length > 0) {
+            let resolvedPage = await Promise.all(page.map(async (join) => {
+                let user = client.users.cache.get(join.id) || await client.users.fetch(join.id);
+                return `${join.left ? "❌" : join.fake ? "💩" : "✅"} ${user.toString()} - **${join.inviteCode}** - ${translate(`il y a **${fromIntToDate(Date.now() +7200000 - join.at)}**`, `**${fromIntToDate(Date.now() +7200000 - join.at, config.lang.toLowerCase())}** ago`)}`
+            }));
             let pageEmbed = new MessageEmbed()
                 .setColor(colors.blue)
                 .setAuthor(member.user.tag, member.user.displayAvatarURL({ format: "png" }))
                 .setDescription(
-                    page.filter(j => client.users.cache.has(j.id))
-                    .map((join) => {
-                        let user = client.users.cache.get(join.id);
-                        return `${join.left ? "❌" : join.fake ? "💩" : "✅"} ${user.toString()} - **${join.inviteCode}** - ${translate(`il y a **${fromIntToDate(Date.now() +7200000 - join.at)}**`, `**${fromIntToDate(Date.now() +7200000 - join.at, config.lang.toLowerCase())}** ago`)}`
-                    }).join("\n") || translate("❌ **Aucun**", "❌ **Asked by**")
+                    resolvedPage.join("\n") || translate("❌ **Aucun**", "❌ **Asked by**")
                 ).setFooter(`${translate("Demandé par", "Asked by")}: ${author.tag}`, author.displayAvatarURL({ format: "png" }))
             pages.push(pageEmbed);
         };
@@ -125,8 +125,8 @@ module.exports = async (client, interaction) => {
 
         let regularInvites = `${member.user.id == interaction.customID.split("_")[2] ? translate("**Vous** avez", "**You** have") : member.user.toString() + translate(" a", " has")} **${Object.values(user.invites).reduce((x,y)=>x+y)}** ${translate("invitations", "invites")}.\n\n` +
         `✅ \`\`${user.invites.normal}\`\` **${translate("Invités", "Invited")}**\n` +
-        `❌ \`\`${user.invites.left}\`\` **${translate("Partis", "Left")}**\n` +
-        `💩 \`\`${user.invites.fake}\`\` **${translate("Invalidés", "Invalid")}**\n` +
+        `❌ \`\`${Math.abs(user.invites.left)}\`\` **${translate("Partis", "Left")}**\n` +
+        `💩 \`\`${Math.abs(user.invites.fake)}\`\` **${translate("Invalidés", "Invalid")}**\n` +
         `✨ \`\`${user.invites.bonus}\`\` **Bonus**`;
 
         let rank = Object.values(db.get("users"))
@@ -167,18 +167,23 @@ module.exports = async (client, interaction) => {
                 }).join("\n") || translate("❌ **Aucun**", "❌ **Any**")
             ).setFooter(`${translate("Demandé par", "Asked by")}: ${author.tag}`, author.displayAvatarURL({ format: "png" }))
 
-        let invitedHistory = new MessageButton()
+        let invitedHistoryButton = new MessageButton()
             .setCustomID(`invited-history_${member.user.id}_${author.id}`)
             .setStyle("SECONDARY")
-            .setLabel(translate("Voir l'historique des membres invités", "Watch invited members history"))
+            .setLabel(translate("Voir l'historique des membres invités", "View invited members history"))
     
-        let invitesHistory = new MessageButton()
+        let invitesHistoryButton = new MessageButton()
             .setCustomID(`invites-list_${member.user.id}_${author.id}`)
             .setStyle("SECONDARY")
-            .setLabel(translate("Voir l'historique des invitations", "Watch active invites history"))
+            .setLabel(translate("Voir l'historique des invitations", "View active invites history"))
     
+        let bonusHistoryButton = new MessageButton()
+            .setCustomID(`bonus-history_${member.user.id}_${author.id}`)
+            .setStyle("SECONDARY")
+            .setLabel(translate("Voir l'historique des invitations bonus", "View bonus invites history"))
+        
         let invitedHistoryActionRaw = new MessageActionRow()
-            .addComponents([invitedHistory, invitesHistory])
+            .addComponents([invitedHistoryButton, invitesHistoryButton, bonusHistoryButton])
 
         interaction.update({ embeds: [embed], components: [invitedHistoryActionRaw] });
     } else if(interaction.customID.startsWith("invites-list") && interaction.user.id == interaction.customID.split("_")[2]) {
@@ -231,5 +236,61 @@ module.exports = async (client, interaction) => {
             .addComponents([backButton])
 
         interaction.update({ embeds: pages, components: [backButtonActionRaw] })
-    }
+    } else if(interaction.customID.startsWith("bonus-history") && interaction.user.id == interaction.customID.split("_")[2]) {
+        const author = interaction.user;
+        const member = interaction.guild.members.cache.get(interaction.customID.split("_")[1]);
+        if(!member) return interaction.update({ content: "Le membre a quitté le serveur.", embeds: [], components: [] });
+
+        let backButton = new MessageButton()
+            .setCustomID(`info_${member.user.id}_${interaction.customID.split("_")[2]}`)
+            .setStyle("SECONDARY")
+            .setLabel(translate("Retour aux informations du membre", "Back to the members infos"))
+        let backButtonActionRaw = new MessageActionRow()
+            .addComponents([backButton])
+
+
+        let pages = [];
+        let page = [];
+        if(!db.has(`users.${member.user.id}.bonusHistory`)) {
+            db.set(`users.${member.user.id}.bonusHistory`, []);
+        }; let user = db.get(`users.${member.user.id}`);
+        if(!user.bonusHistory.length) {
+            let emptyEmbed = new MessageEmbed()
+                .setColor(colors.red)
+                .setDescription(`❌ - ${member.user.id == author.id ? translate("**Vous**", "**You**") : member.user.toString()} ${translate("n'avez jamais eu d'invitations bonus.", "have never had any bonus invitations.")}`)
+                .setAuthor(member.user.tag, member.user.displayAvatarURL({ format: "png" }))
+                .setFooter(`${translate("Demandé par", "Asked by")}: ${author.tag}`, author.displayAvatarURL({ format: "png" }))
+            return interaction.update({ embeds: [emptyEmbed], components: [backButtonActionRaw] });
+        };
+
+        user.bonusHistory.reverse().forEach(bonus => {
+            page.push(bonus);
+            if(page.length >= 10) {
+                pages.push(page);
+                page = [];
+            }
+        }); if(page.length > 0) pages.push(page);
+
+        pages = await Promise.all(pages.map(async (page) => {
+            let p = await Promise.all(page.map(async (el) => {
+                let user = client.users.cache.get(el.by) || await client.users.fetch(el.by);
+                let emoji = el.action == "add" ? "📈" : "📉";
+                let amount = "**" + el.amount.toLocaleString("fr") + "** " + (el.action == "add" ? translate("ajoutées", "added") : translate("retirées", "subtracted"));
+                let date = moment.utc(el.at).format("DD/MM/YYYY à HH:mm")
+                let timestamp = fromIntToDate(Date.now() - el.at +7200000, config.lang.toLowerCase());
+                let reason = el.reason ? `\n\`\`↪\`\` __**${translate("Raison", "Reason")} :**__ ${el.reason}` : "";
+
+                return `${emoji} ${amount} ${translate("par", "by")} ${user.toString()}\n\`\`↪\`\` ${translate(`Le **${date}** (il y a **${timestamp}**)`, `On **${date}** (**${timestamp}** ago)`)}${reason}`
+            }));
+            return new MessageEmbed()
+                .setColor(colors.blue)
+                .setAuthor(member.user.tag, member.user.displayAvatarURL({ format: "png" }))
+                .setFooter(`${translate("Demandé par", "Asked by")}: ${author.tag}`, author.displayAvatarURL({ format: "png" }))
+                .setDescription(
+                    p.join("\n\n")
+                )
+        }));
+
+        interaction.update({ embeds: pages, components: [backButtonActionRaw] });
+    };
 };

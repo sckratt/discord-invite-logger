@@ -21,7 +21,7 @@ const run = async (client, msg, args) => {
                 at: member.joinedAt.setHours(member.joinedAt.getHours() +1),
                 by: undefined,
                 inviteCode: undefined
-            }],
+            }], bonusHistory: [],
             invites: {
                 normal: 0,
                 left: 0,

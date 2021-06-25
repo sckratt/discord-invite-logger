@@ -13,6 +13,7 @@ module.exports = async (client, guildMember) => {
     if(!db.has(`users.${guildMember.user.id}`)) db.set(`users.${guildMember.user.id}`, {
         id: guildMember.user.id,
         joins: [],
+        bonusHistory: [],
         invites: {
             normal: 0,
             left: 0,

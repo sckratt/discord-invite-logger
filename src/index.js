@@ -1,18 +1,34 @@
 require('dotenv').config();
 
 const db = require('quick.db');
-const { Client, Intents } = require('discord.js');
-const { Handler } = require('discord-handling');
+const { Client, Intents, Collection } = require('discord.js');
+const fs = require('fs');
+const path = require('path');
 
-var handler = new Handler({
-    indexPath: __dirname,
-    token: process.env.token,
-    prefix: require('../config.json').prefix
+const client = new Client({ intents: Intents.ALL });
+client.commands = new Collection();
+
+fs.readdirSync(path.resolve(process.cwd(), "src", "commands"))
+.filter(c => c.endsWith(".js"))
+.forEach(f => {
+    let command = require(`./commands/${f}`);
+    client.commands.set(f.split(".js")[0], {
+        name: f.split(".js")[0],
+        aliases: command.aliases,
+        description: command.description,
+        run: command.run
+    });
 });
-handler.createCommandCollection()
-.createEventCollection()
-.handleEvents()
+fs.readdirSync(path.resolve(process.cwd(), "src", "events"))
+.filter(e => e.endsWith(".js"))
+.forEach(f => {
+    client.on(f.split(".js")[0], (x,y) => require(`./events/${f}`)(client, x, y));
+});
 
-handler.getClient().sendError = (msg, content) => {
+client.login(process.env.token);
+
+client.sendError = (msg, content) => {
     return msg.reply(`🧐 - **${content}**`);
-};
+}; client.editError = (msg, content) => {
+    return msg.edit(`🧐 - **${content}**`);
+}

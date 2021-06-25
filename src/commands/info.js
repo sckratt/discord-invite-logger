@@ -11,6 +11,7 @@ const translate = require('../translate');
  * @param {string[]} args
  */
 const run = async (client, msg, args) => {
+    if(!msg.member.permissions.has("MANAGE_GUILD")) return client.sendError(msg, translate("Vous n'avez pas la permission d'utiliser cette commande...", "You do not have permissions to use this command."));
     let member = args[0] ? msg.mentions.members.first() || msg.guild.members.cache.get(args[0]) : msg.member;
     if(!member || member.user.bot) return client.sendError(msg, translate("Aucun membre n'a été trouvé...", "No members were found..."));
 
@@ -22,6 +23,7 @@ const run = async (client, msg, args) => {
                 by: undefined,
                 inviteCode: undefined
             }],
+            bonusHistory: [],
             invites: {
                 normal: 0,
                 left: 0,
@@ -33,8 +35,8 @@ const run = async (client, msg, args) => {
 
     let regularInvites = `${member.user.id == msg.author.id ? translate("**Vous** avez", "**You** have") : member.user.toString() + translate(" a", " has")} **${Object.values(user.invites).reduce((x,y)=>x+y)}** ${translate("invitations", "invites")}.\n\n` +
         `✅ \`\`${user.invites.normal}\`\` **${translate("Invités", "Invited")}**\n` +
-        `❌ \`\`${user.invites.left}\`\` **${translate("Partis", "Left")}**\n` +
-        `💩 \`\`${user.invites.fake}\`\` **${translate("Invalidés", "Invalid")}**\n` +
+        `❌ \`\`${Math.abs(user.invites.left)}\`\` **${translate("Partis", "Left")}**\n` +
+        `💩 \`\`${Math.abs(user.invites.fake)}\`\` **${translate("Invalidés", "Invalid")}**\n` +
         `✨ \`\`${user.invites.bonus}\`\` **Bonus**`;
 
     let rank = Object.values(db.get("users"))
@@ -75,18 +77,23 @@ const run = async (client, msg, args) => {
             }).join("\n") || translate("❌ **Aucun**", "❌ **Any**")
         ).setFooter(`${translate("Demandé par", "Asked by")}: ${msg.author.tag}`, msg.author.displayAvatarURL({ format: "png" }))
 
-    let invitedHistory = new MessageButton()
+    let invitedHistoryButton = new MessageButton()
         .setCustomID(`invited-history_${member.user.id}_${msg.author.id}`)
         .setStyle("SECONDARY")
-        .setLabel(translate("Voir l'historique des membres invités", "Watch invited members history"))
+        .setLabel(translate("Voir l'historique des membres invités", "View invited members history"))
 
-    let invitesHistory = new MessageButton()
+    let invitesHistoryButton = new MessageButton()
         .setCustomID(`invites-list_${member.user.id}_${msg.author.id}`)
         .setStyle("SECONDARY")
-        .setLabel(translate("Voir l'historique des invitations", "Watch active invites history"))
+        .setLabel(translate("Voir l'historique des invitations", "View active invites history"))
 
+    let bonusHistoryButton = new MessageButton()
+        .setCustomID(`bonus-history_${member.user.id}_${msg.author.id}`)
+        .setStyle("SECONDARY")
+        .setLabel(translate("Voir l'historique des invitations bonus", "View bonus invites history"))
+    
     let invitedHistoryActionRaw = new MessageActionRow()
-        .addComponents([invitedHistory, invitesHistory])
+        .addComponents([invitedHistoryButton, invitesHistoryButton, bonusHistoryButton])
     msg.channel.send({ embeds: [embed], components: [invitedHistoryActionRaw] });
 };
 
