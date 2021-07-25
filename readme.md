@@ -6,7 +6,10 @@
     ![Server Members Instent](https://i.imgur.com/ywbvEv0.png)
 6.  Ouvrir le fichier __**config.json**__.
 7.  Entrez les informations demandées.
-8.  Entrez votre token dans le fichier __**.env**__
+8.  Créez un fichier __**.env**__ à la racine du projet, puis entrez votre token dedans comme ci-dessous :
+```
+token=TON_TOKEN
+```
 9.  Invitez votre bot via le lien d'invitation via l'onglet **OAuth2**.
 10. Enfin, pour lancer le bot, double-cliquez sur le fichier __**start.bat**__
 11. Si vous avez des questions, ouvrez un commentaire dans l'onglet GitHub **[Issues](https://github.com/aeziotech/discord-invite-logger/issues)**.
