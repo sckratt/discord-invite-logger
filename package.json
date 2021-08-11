@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "discord-toolbox": "^1.0.7",
-    "discord.js": "^13.0.0-dev.4714a961b87746b0f85214c756614d276666f285",
+    "discord.js": "^13.0.1",
     "dotenv": "^10.0.0",
     "moment": "^2.29.1",
     "quick.db": "^7.1.3"
