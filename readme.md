@@ -33,5 +33,5 @@ token=TON_TOKEN
 
 ### Plus de fonctionnalités à venir... Tenez vous informé !
 
-__**REJOIGNEZ MOI SUR DISCORD :**__
+__**REJOIGNEZ MOI SUR DISCORD ([Cliquez ici](https://discord.gg/VzmrCga)) :**__
 [![lunarbyte-studio](https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/1631/posts/34139/image/Twitch%20Panel%20Maker%20for%20a%20Simple%20Chat%20Button%20copy.jpg)](https://discord.gg/VzmrCga)
