@@ -1,3 +1,5 @@
+# Disord Invite Logger Bot - Discord.js v13.1.0
+
 # Instruction
 1.  Installer [Node.js](https://nodejs.org/en/).
 2.  Cliquez sur le fichier __**install.bat**__ qui vous permet d'installer les dépendances.
