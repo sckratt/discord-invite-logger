@@ -31,7 +31,7 @@ token=TON_TOKEN
 {inviteCount} : Nombre d'invitation du membre qui a invité
 ```
 
-### Plus de fonctionnalités à venir... Tenez vous informé
+### Plus de fonctionnalités à venir... Tenez vous informé !
 
 __**REJOIGNEZ MOI SUR DISCORD :**__
 [![lunarbyte-studio](https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/1631/posts/34139/image/Twitch%20Panel%20Maker%20for%20a%20Simple%20Chat%20Button%20copy.jpg)](https://discord.gg/VzmrCga)
