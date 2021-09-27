@@ -7,6 +7,8 @@ const translate = require('../translate');
  * @param {Client} client 
  */
 module.exports = async (client) => {
+    if(!db.has("invites")) db.set("invites", {});
+    if(!db.has("users")) db.set("users", {});
     console.log(`${translate("Connecté en tant que", "Connected as")} ${client.user.tag}`);
     let guildInvites = (await client.guilds.cache.get(require('../../config.json').serverID).invites.fetch());
     guildInvites
