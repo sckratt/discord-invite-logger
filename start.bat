@@ -1,3 +1,3 @@
 @echo off
-node .
+npm start
 pause
