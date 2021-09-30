@@ -10,7 +10,14 @@ module.exports = async (client) => {
     if(!db.has("invites")) db.set("invites", {});
     if(!db.has("users")) db.set("users", {});
     console.log(`${translate("Connecté en tant que", "Connected as")} ${client.user.tag}`);
-    let guildInvites = (await client.guilds.cache.get(require('../../config.json').serverID).invites.fetch());
+    const guild = client.guilds.cache.get(require('../../config.json').serverID);
+    if(!guild) return console.log("Vous n'avez pas ajouté le bot à votre serveur !");
+    try {
+        var guildInvites = (await guild.invites.fetch());
+    } catch {
+        return console.log("Le bot n'a pas la permission de voir les invitations. Veuillez la lui attribuer.");
+    };
+
     guildInvites
         .forEach(i => {
             db.set(`invites.${i.code}`, {
