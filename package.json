@@ -1,7 +1,7 @@
 {
   "name": "discord-invite-logger",
   "version": "1.0.0",
-  "description": "",
+  "description": "A great discord invite logger bot using djs v13",
   "main": "src/index.js",
   "scripts": {
     "start": "node ."
