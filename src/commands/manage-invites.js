@@ -40,29 +40,32 @@ const run = async (client, msg, args) => {
 
     let action = "";
     let nextStep = true;
-    await message.awaitMessageComponentInteraction((interaction) => {
-        return interaction.user.id == msg.author.id && interaction.isButton();
-    },{
-        time: 30000
+    await message.awaitMessageComponent({
+        filter: (interaction) => {
+            return interaction.user.id == msg.author.id && interaction.isButton();
+        }, time: 30000
     }).then((interaction) => {
+        console.log(interaction);
         switch(interaction.customId) {
             case addButtonID: action = "add";
             break; case removeButtonID: action = "subtract";
             break;
-        }; interaction.update();
+        }; interaction.deferUpdate();
     }).catch(() => {
         nextStep = false;
         message.edit({ embeds: [tooLateEmbed] });
     }); if(!nextStep) return;
+    console.log("good");
 
     let amountEmbed = new MessageEmbed()
         .setColor(colors.yellow)
         .setDescription((action == "add" ? "📈" : "📉") + " - " + translate(`**Combien d'invitation souhaitez-vous lui ${action == "add" ? "ajouter" : "retirer"} ?**`, `**How many invites do you want to ${action} ?**`))
     await message.edit({ embeds: [amountEmbed], components: [] });
-    let amount = await msg.channel.awaitMessages((m) => {
-        return m.author.id == msg.author.id && Math.abs(parseInt(m.content)) > 0;
-    },{
-        max: 1,
+    
+    let amount = await msg.channel.awaitMessages({
+        filter: (m) => {
+            return m.author.id == msg.author.id && Math.abs(parseInt(m.content)) > 0;
+        }, max: 1,
         time: 30000,
         errors: ["time"]
     }).then(collected => {
@@ -92,10 +95,10 @@ const run = async (client, msg, args) => {
     await message.edit({ embeds: [askReasonEmbed], components: [skipReasonActionRaw] });
 
     await Promise.race([
-        msg.channel.awaitMessages((m) => {
-            return m.author.id == msg.author.id;
-        },{
-            max: 1,
+        msg.channel.awaitMessages({
+            filter: (m) => {
+                return m.author.id == msg.author.id;
+            }, max: 1,
             time: 40000,
             errors: ["time"]
         }).then((collected) => {
@@ -103,12 +106,12 @@ const run = async (client, msg, args) => {
             reason = collected.first().content;
         }).catch(() => {})
         ,
-        message.awaitMessageComponentInteraction((interaction) => {
-            return interaction.user.id == msg.author.id && interaction.isButton() && interaction.customId == skipReasonButtonID;
-        },{
-            time: 40000
+        message.awaitMessageComponent({
+            filter: (interaction) => {
+                return interaction.user.id == msg.author.id && interaction.isButton() && interaction.customId == skipReasonButtonID;
+            }, time: 40000
         }).then((interaction) => {
-            interaction.update();
+            interaction.deferUpdate();
             nextStep = true;
             skipReason = true;
         }).catch(() => {})
