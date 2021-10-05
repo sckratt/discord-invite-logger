@@ -45,7 +45,6 @@ const run = async (client, msg, args) => {
             return interaction.user.id == msg.author.id && interaction.isButton();
         }, time: 30000
     }).then((interaction) => {
-        console.log(interaction);
         switch(interaction.customId) {
             case addButtonID: action = "add";
             break; case removeButtonID: action = "subtract";
@@ -55,7 +54,6 @@ const run = async (client, msg, args) => {
         nextStep = false;
         message.edit({ embeds: [tooLateEmbed] });
     }); if(!nextStep) return;
-    console.log("good");
 
     let amountEmbed = new MessageEmbed()
         .setColor(colors.yellow)
