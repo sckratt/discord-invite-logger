@@ -206,14 +206,13 @@ module.exports = async (client, guildMember) => {
             by: invite.inviter.id,
             inviteCode: invite.code
         });
-        console.log(1, db.get(`users.${guildMember.user.id}`));
 
-        let content = config.welcome.message.success
+        let content = config.welcome.message.valid
             .replace(/{user}/g, guildMember.user.toString())
             .replace(/{userTag}/g, guildMember.user.tag)
             .replace(/{userName}/g, guildMember.user.username)
             .replace(/{createdAt}/g, moment.utc(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() +2)).format("DD/MM/YYYY à HH:mm"))
-            .replace(/{createdTimestamp}/g, fromIntToDate(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() +2), config.lang.toLowerCase()))
+            .replace(/{createdTimestamp}/g, fromIntToDate(new Date(guildMember.user.createdAt.setHours(guildMember.user.createdAt.getHours() +2)).getTime(), config.lang.toLowerCase()))
             .replace(/{inviteCode}/g, invite.code)
             .replace(/{memberCount}/g, guildMember.guild.members.cache.filter(m => !m.user.bot).size)
             .replace(/{inviter}/g, invite.inviter.toString())
@@ -225,7 +224,7 @@ module.exports = async (client, guildMember) => {
                 .setColor(config.welcome.color)
                 .setDescription(content)
             guildMember.guild.channels.cache.get(config.welcome.channelId)
-                .send({ embds: [message] });
+                .send({ embeds: [message] });
         } else {
             guildMember.guild.channels.cache.get(config.welcome.channelId)
                 .send({ content: content });
