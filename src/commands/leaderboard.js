@@ -74,7 +74,7 @@ const run = async (client, msg, args) => {
     });
 
     let i = 0;
-    while(i < pages.length) {
+    while(pages.length > 1 && i < pages.length) {
         let isClicked = false;
         let message = await msg.channel.send(pages[i]).catch(console.error);
         await message.awaitMessageComponent({
