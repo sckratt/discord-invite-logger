@@ -25,6 +25,7 @@ const run = async (client, msg, args) => {
     pages = pages.map((page, i) => {
         let messageActionRaws = [];
         let embed = new MessageEmbed()
+            .setColor(colors.yellow)
             .setAuthor(msg.guild.name, msg.guild.iconURL())
             .setDescription(
                 (page.map((user, j) => `**${j+1+i*10}.** ${client.users.cache.get(user.id).toString()} - **${Object.values(user.invites).reduce((x,y)=>x+y).toLocaleString()} ${translate("invitations", "invites")}** (**${user.invites.normal}** ${translate("normales", "regular")}, **${user.invites.left}** ${translate("partis", "left")}, **${user.invites.fake}** ${translate("fausses", "fake")}, **${user.invites.bonus}** bonus)`)
@@ -74,9 +75,10 @@ const run = async (client, msg, args) => {
     });
 
     let i = 0;
-    while(pages.length > 1 && i < pages.length) {
+    while(i < pages.length) {
         let isClicked = false;
         let message = await msg.channel.send(pages[i]).catch(console.error);
+        if(pages.length == 1) break;
         await message.awaitMessageComponent({
             filter: (interaction) => {
                 return interaction.customId.startsWith("leaderboard") && interaction.user.id == msg.author.id && interaction.isButton();
@@ -85,7 +87,10 @@ const run = async (client, msg, args) => {
             i = parseInt(interaction.customId.split("_")[1]);
             return interaction.deferUpdate();
         }).catch(()=>'');
-        if(!isClicked) message.edit({ embeds: pages[i].embeds, components: [] });
+        if(!isClicked) {
+            message.edit({ embeds: pages[i].embeds, components: [] });
+            break;
+        }
     };
 };
 

@@ -14,7 +14,7 @@ const run = async (client, msg, args) => {
     if(msg.author.bot) return;
 
     let embed = new MessageEmbed()
-        .setColor(colors.blue)
+        .setColor(colors.yellow)
         .setTitle(`📝 - ${translate("Liste des commandes", "Commands list")}`)
         .setDescription(client.commands.map(c => `\`\`${c.name}\`\``).join(", "))
         .setFooter(translate(`Demandé par: `, `Asked by: `) + (msg.member.nickname || msg.author.username), msg.author.displayAvatarURL())

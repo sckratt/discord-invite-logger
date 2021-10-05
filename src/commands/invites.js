@@ -35,7 +35,7 @@ const run = async (client, msg, args) => {
         .sort((a,b) => Object.values(b.invites).reduce((x,y)=>x+y) - Object.values(a.invites).reduce((x,y)=>x+y))
 
     let embed = new MessageEmbed()
-        .setColor(colors.blue)
+        .setColor(colors.yellow)
         .setAuthor(member.user.tag, member.user.displayAvatarURL({ format: "png" }))
         .setDescription(
             `${member.user.id == msg.author.id ? translate("**Vous** avez", "**You** have") : member.user.toString() + translate(" a", " has")} **${Object.values(user.invites).reduce((x,y)=>x+y)}** ${translate("invitations", "invites")}.\n\n` +
