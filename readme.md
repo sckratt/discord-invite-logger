@@ -14,7 +14,7 @@ Discord Invite Logger bot est un bot qui vous permet de traquer les invitations.
 6.  Ouvrir le fichier __**config.json**__ et y entrer les informations demandées.
 7.  Dans le fichier __**.env**__, entrez votre token.
 8. Enfin, pour lancer le bot, double-cliquez sur le fichier __**start.bat**__
-9. Si vous avez des questions ou un problème, ouvrez un commentaire dans l'onglet GitHub **[Issues](https://github.com/aeziotech/discord-invite-logger/issues)** ou **[rejoignez le serveur discord](https://discord.gg/uCcxWXD8er)**.
+9. Si vous avez des questions ou un problème, ouvrez un commentaire dans l'onglet GitHub **[Issues](https://github.com/aeziotech/discord-invite-logger/issues)** ou **[rejoignez le serveur discord](https://discord.gg/QTswMhEeFd)**.
 10. Voici les variables possible dans la configuration des message du __**config.json**__ :
 ```
 {user} : Mention du membre
@@ -44,7 +44,7 @@ Discord Invite Logger bot est un bot qui vous permet de traquer les invitations.
 6. Dans le fichier __**.env**__, entrez votre token.
 7. Dans l'onglet __**Startup**__, paramétrez le champs `BOT JS FILE` et mettez `src/index.js`
 8. Allez dans l'onglet `Console` et lancez le bot.
-9. Si vous avez des questions ou un problème, ouvrez un commentaire dans l'onglet GitHub **[Issues](https://github.com/aeziotech/discord-invite-logger/issues)** ou **[rejoignez le serveur discord](https://discord.gg/uCcxWXD8er)**.
+9. Si vous avez des questions ou un problème, ouvrez un commentaire dans l'onglet GitHub **[Issues](https://github.com/aeziotech/discord-invite-logger/issues)** ou **[rejoignez le serveur discord](https://discord.gg/QTswMhEeFd)**.
 12. Voici les variables possible dans la configuration des message du
 __**config.json**__ :
 ```
@@ -65,5 +65,5 @@ __**config.json**__ :
 
 ### Plus de fonctionnalités à venir... Tenez vous informé !
 
-__**REJOIGNEZ MOI SUR DISCORD ([Cliquez ici](https://discord.gg/uCcxWXD8er)) :**__
-[![lunarbyte-studio](https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/1631/posts/34139/image/Twitch%20Panel%20Maker%20for%20a%20Simple%20Chat%20Button%20copy.jpg)](https://discord.gg/uCcxWXD8er)
+__**REJOIGNEZ MOI SUR DISCORD ([Cliquez ici](https://discord.gg/QTswMhEeFd)) :**__
+[![lunarbyte-studio](https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/1631/posts/34139/image/Twitch%20Panel%20Maker%20for%20a%20Simple%20Chat%20Button%20copy.jpg)](https://discord.gg/QTswMhEeFd)
