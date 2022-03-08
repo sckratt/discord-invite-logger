@@ -207,7 +207,7 @@ module.exports = async (client, guildMember) => {
             inviteCode: invite.code
         });
 
-        let content = config.welcome.message.valid
+        let content = config.welcome.message.success
             .replace(/{user}/g, guildMember.user.toString())
             .replace(/{userTag}/g, guildMember.user.tag)
             .replace(/{userName}/g, guildMember.user.username)
