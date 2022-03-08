@@ -45,7 +45,7 @@ const run = async (client, msg, args) => {
         
         let embed = new MessageEmbed()
             .setColor(colors.yellow)
-            .setAuthor(member.user.tag, member.user.displayAvatarURL({ format: "png" }))
+            .setAuthor({ name: member.user.tag, iconURL: member.user.displayAvatarURL({ format: "png" }) })
             .addField(
                 translate("__Invité par__", "__Invited by__"),
                 user.joins.length ? user.joins[user.joins.length-1].by == "vanity" ? "URL personnalisée" : user.joins[user.joins.length-1].by ? (client.users.cache.get(user.joins[user.joins.length-1].by) || await client.users.fetch(user.joins[user.joins.length-1].by)).toString() : translate("❌ **Introuvable**", "❌ **Not found**") : translate("❌ **Introuvable**", "❌ **Not found**"),

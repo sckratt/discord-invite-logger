@@ -26,7 +26,7 @@ const run = async (client, msg, args) => {
         let messageActionRaws = [];
         let embed = new MessageEmbed()
             .setColor(colors.yellow)
-            .setAuthor(msg.guild.name, msg.guild.iconURL())
+            .setAuthor({ name: msg.guild.name, iconURL: msg.guild.iconURL() })
             .setDescription(
                 (page.map((user, j) => `**${j+1+i*10}.** ${client.users.cache.get(user.id).toString()} - **${Object.values(user.invites).reduce((x,y)=>x+y).toLocaleString()} ${translate("invitations", "invites")}** (**${user.invites.normal}** ${translate("normales", "regular")}, **${user.invites.left}** ${translate("partis", "left")}, **${user.invites.fake}** ${translate("fausses", "fake")}, **${user.invites.bonus}** bonus)`)
                 .join("\n")) || "***Aucun membre n'est classé.***"

@@ -36,7 +36,7 @@ const run = async (client, msg, args) => {
 
     let embed = new MessageEmbed()
         .setColor(colors.yellow)
-        .setAuthor(member.user.tag, member.user.displayAvatarURL({ format: "png" }))
+        .setAuthor({ name: member.user.tag, iconURL: member.user.displayAvatarURL({ format: "png" }) })
         .setDescription(
             `${member.user.id == msg.author.id ? translate("**Vous** avez", "**You** have") : member.user.toString() + translate(" a", " has")} **${Object.values(user.invites).reduce((x,y)=>x+y)}** ${translate("invitations", "invites")}.\n\n` +
             `✅ \`\`${user.invites.normal}\`\` **${translate("Invités", "Invited")}**\n` +

@@ -5,7 +5,9 @@ const { Client, Intents, Collection } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 
-const client = new Client({ intents: ["GUILDS", "GUILD_INVITES", "GUILD_MEMBERS", "GUILD_MESSAGES"], partials: ["CHANNEL", "GUILD_MEMBER", "MESSAGE", "USER"] });
+const client = new Client({
+    intents: Object.values(Intents.FLAGS),
+    partials: ["CHANNEL", "GUILD_MEMBER", "MESSAGE", "USER", "GUILD"] });
 client.commands = new Collection();
 
 fs.readdirSync(path.resolve(process.cwd(), "src", "commands"))
