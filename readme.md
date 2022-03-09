@@ -14,7 +14,7 @@ Discord Invite Logger bot est un bot qui vous permet de traquer les invitations.
 6.  Ouvrir le fichier __**config.json**__ et y entrer les informations demandées.
 7.  Dans le fichier __**.env**__, entrez votre token.
 8. Enfin, pour lancer le bot, double-cliquez sur le fichier __**start.bat**__
-9. Si vous avez des questions ou un problème, ouvrez un commentaire dans l'onglet GitHub **[Issues](https://github.com/aeziotech/discord-invite-logger/issues)** ou **[rejoignez le serveur discord](https://discord.gg/QTswMhEeFd)**.
+9. Si vous avez des questions ou un problème, ouvrez un commentaire dans l'onglet GitHub **[Issues](https://github.com/azynux/discord-invite-logger/issues)** ou **[rejoignez le serveur discord](https://discord.gg/QTswMhEeFd)**.
 10. Voici les variables possible dans la configuration des message du __**config.json**__ :
 ```
 {user} : Mention du membre
@@ -44,7 +44,7 @@ Discord Invite Logger bot est un bot qui vous permet de traquer les invitations.
 6. Dans le fichier __**.env**__, entrez votre token.
 7. Dans l'onglet __**Startup**__, paramétrez le champs `BOT JS FILE` et mettez `src/index.js`
 8. Allez dans l'onglet `Console` et lancez le bot.
-9. Si vous avez des questions ou un problème, ouvrez un commentaire dans l'onglet GitHub **[Issues](https://github.com/aeziotech/discord-invite-logger/issues)** ou **[rejoignez le serveur discord](https://discord.gg/QTswMhEeFd)**.
+9. Si vous avez des questions ou un problème, ouvrez un commentaire dans l'onglet GitHub **[Issues](https://github.com/azynux/discord-invite-logger/issues)** ou **[rejoignez le serveur discord](https://discord.gg/QTswMhEeFd)**.
 12. Voici les variables possible dans la configuration des message du
 __**config.json**__ :
 ```
