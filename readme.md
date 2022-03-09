@@ -63,6 +63,9 @@ __**config.json**__ :
 
 </details>
 
+# Voir aussi
+- (Discord Suggestions Manager Bot)[https://github.com/azynux/discord-suggestions-bot]
+
 ### Plus de fonctionnalités à venir... Tenez vous informé !
 
 __**REJOIGNEZ MOI SUR DISCORD ([Cliquez ici](https://discord.gg/QTswMhEeFd)) :**__
