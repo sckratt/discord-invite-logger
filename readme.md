@@ -45,7 +45,7 @@ Discord Invite Logger bot est un bot qui vous permet de traquer les invitations.
 7. Dans l'onglet __**Startup**__, paramétrez le champs `BOT JS FILE` et mettez `src/index.js`
 8. Allez dans l'onglet `Console` et lancez le bot.
 9. Si vous avez des questions ou un problème, ouvrez un commentaire dans l'onglet GitHub **[Issues](https://github.com/azynux/discord-invite-logger/issues)** ou **[rejoignez le serveur discord](https://discord.gg/QTswMhEeFd)**.
-12. Voici les variables possible dans la configuration des message du
+10. Voici les variables possible dans la configuration des message du
 __**config.json**__ :
 ```
 {user} : Mention du membre
