@@ -232,5 +232,18 @@ module.exports = async (client, guildMember) => {
 
             
         console.log(2, db.get(`users.${guildMember.user.id}`));
+    };
+
+    try {
+        const newInvites = await guildMember.guild.invites.fetch();
+        newInvites.forEach(newInvite => {
+            db.set(`invites.${newInvite.code}`, {
+                inviterId: guildMember.user?.id,
+                code: newInvite.code,
+                uses: newInvite.uses
+            });
+        });
+    } catch (err) {
+        console.error(err);
     }
-}
+};
