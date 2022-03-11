@@ -229,9 +229,6 @@ module.exports = async (client, guildMember) => {
             guildMember.guild.channels.cache.get(config.welcome.channelId)
                 .send({ content: content });
         }
-
-            
-        console.log(2, db.get(`users.${guildMember.user.id}`));
     };
 
     try {
