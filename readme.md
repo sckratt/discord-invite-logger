@@ -1,8 +1,11 @@
 # Disord Invite Logger Bot - Discord.js v13
 Discord Invite Logger bot est un bot qui vous permet de traquer les invitations. Il vous permettra de savoir par quel membre a été invité l'utilisateur. Il offre une interface exceptionnelle, grâce aux boutons, nouvelles fonctionnalités de Discord.
 
-## Please, do not forget to star the project !!
-## S'il vous plait, n'oubliez pas d'étoiler le projet !!
+## Discord.js v14 with slash commands plugin bot coming soon. You will be able to use the discord-invite-logger plugin on it to have the newest version with slash commands on [this page](https://github.com/azynux/discord-plugin-bot)
+
+
+### Please, do not forget to star the project !!
+### S'il vous plait, n'oubliez pas d'étoiler le projet !!
 
 <details>
 <summary>Installation LOCALHOST</summary>
